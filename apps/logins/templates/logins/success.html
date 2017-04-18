@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Successful Login</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{%static 'logins/css/style_success.css'%}">
+</head>
+<body>
+	<a href="{% url 'logins:signout' %}">Log Out</a>
+	<h1>Success! Welcome, {{users.firstName}}</h1>
+	<h3>Successfully registered (or logged in)!</h3>
+
+</body>
+</html>

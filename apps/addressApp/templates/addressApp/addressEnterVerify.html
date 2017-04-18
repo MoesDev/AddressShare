@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Address Create</title>
+	<script language="javascript" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<script>
+		// function addButton(i, chooseAd) { 
+		// 	var buttonName="button"+ i  
+		// 	var element = document.createElement("BUTTON"); 
+		// 	element.type = button;
+		// 	element.value = This is my address;
+		// 	element.name = buttonName;
+		// 	element.onclick = function() { 
+		// 	alert(i);
+		// 	}
+
+		// 	  var chooseAnAddress = document.getElementById(chooseAd);  
+		// 	  chooseAnAddress.appendChild(element);
+		// }
+
+		// function createAddressSelector(data){
+		// 	var chooseAddress="";
+		// 	// var button = document.createElement("BUTTON");
+		// 	for (var i = 0; i < data.length; i++) {
+		// 		chooseAd="cA"+i;
+		// 		chooseAddress+= "<h3 id="+chooseAd+">"+data[i].display_name+"</h3>";
+		// 	}
+		// 	console.log(chooseAddress);
+		// 	document.getElementById("correct_address_submit_form").innerHTML=chooseAddress;
+		// 	addButton(i, chooseAd)
+
+		// }
+
+		function verifyTypedAddress(addressTyped, cityTyped, stateTyped, zipTyped, cnt){
+			if (cnt==0) {
+				theAddress = addressTyped +","+ cityTyped +","+ stateTyped +","+ zipTyped;
+				}
+			else{
+				theAddress = addressTyped +","+","+ stateTyped +","+ zipTyped;
+				}
+			verifyAddress="http://nominatim.openstreetmap.org/search?q="+ theAddress +"&format=json&polygon=1&addressdetails=1"
+			$.getJSON( verifyAddress, function( data ) {
+				if (data.length == 0 && cnt == 0) {
+					cnt=1;
+					verifyTypedAddress(addressTyped, cityTyped, stateTyped, zipTyped, cnt)
+				}
+				else if(data.length == 0){
+					return(alert("Address not found. Please try editing your input."));
+	
+				}
+				else{
+					// selectAd =createAddressSelector(data)
+					alert("If this address is correct, click SUBMIT for Step 2:\n\n" + data[0].display_name)
+					console.log(data);
+					console.log(data[0]);
+					correctAddress = document.getElementById("address");
+					correctCity = document.getElementById("city");
+					correctState = document.getElementById("state");
+					correctZipcode = document.getElementById("zipcode");
+					correctSubmit = document.getElementById("addressSubmitToData");
+					correctReset = document.getElementById("addressResetEdit");
+					correctAddress.value = data[0].address.house_number + " " + data[0].address.road;
+					if 	(data[0].address.city != null){
+						correctCity.value = data[0].address.city;
+					}
+					else{
+						correctCity.value = data[0].address.hamlet;
+					}
+					correctState.value = data[0].address.state;
+					correctZipcode.value = data[0].address.postcode;
+					correctAddress.readOnly = true;
+					correctCity.readOnly = true;
+					correctState.readOnly = true;
+					correctZipcode.readOnly = true;	
+					correctSubmit.disabled = false;	
+					correctReset.disabled = false;
+
+					return data;
+				}
+			});
+		}
+
+		function resetTypedAddress(){
+			correctAddress = document.getElementById("address");
+			correctCity = document.getElementById("city");
+			correctState = document.getElementById("state");
+			correctZipcode = document.getElementById("zipcode");
+			correctSubmit = document.getElementById("addressSubmitToData");
+			correctReset = document.getElementById("addressResetEdit");
+			correctAddress.readOnly = false;
+			correctCity.readOnly = false;
+			correctState.readOnly = false;
+			correctZipcode.readOnly = false;	
+			correctSubmit.disabled = true;	
+			correctReset.disabled = true;
+
+		}
+	</script>
+
+
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{%static 'addressApp/css/style_address.css'%}">
+</head>
+<body>
+
+	<div id="address_form_div">
+		<form id="address_form" action="{% url 'address:sessions_address' %}" method="POST">
+			{% csrf_token %}
+			<label>Address: </label><input id="address" name="address" type="text" value="6800 Edmond" placeholder="ex: 1234 Main Street">
+			<label>Suite/Apt Number: </label>
+			<input name="aptNum" type="text" value=""placeholder="apt, suite, condo, etc.">
+			<label>City: </label>
+			<input id="city" name="city" type="text" value="Waco">
+			<label>State: </label>
+			<input id="state" name="state" type="text" value="TX">
+			<label>Zip: </label>
+			<input id="zipcode" name="zipcode" type="text" value="">
+			<input type="button" value="VerifyAddress" onClick="verifyTypedAddress(address.value, city.value, state.value, zipcode.value, 0)">
+
+			<input type="submit" id="addressSubmitToData" value="Step 1 of 2: Submit" disabled="true">
+
+			<input type="button" id="addressResetEdit" value="Reset to Edit" onClick="resetTypedAddress()" disabled="true">
+
+			<p>Enter your name, email, and login on the next page. Then you're all set to start using our site.</p>
+		</form>
+	</div>
+	<div id="correct_address_submit_form"></div>
+
+	{% for add in addressInfo %}
+
+		<p>{{add.address}}</p>
+		<p>******</p>
+
+	{% endfor %}
+	
+
+</body>
+</html>

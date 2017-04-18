@@ -1,0 +1,25 @@
+#address_form_div{
+	display: block;
+	width:320px;
+	border: 1px solid black;
+	padding:10px;
+}
+	#address_form label{
+		display: inline-block;
+		width:120px;
+		margin: 3px 0px;
+	}
+	#otherStreetAbrv{
+		display: block;
+		margin-left: 120px;
+	}
+		#address_form label input{
+			display: inline-block;
+			width:200px;
+			margin: 3px 0px;
+		}
+		#address_form label select{
+			display: inline-block;
+			padding:0px;
+			margin: 3px 0px;
+		}

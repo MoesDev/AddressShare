@@ -1,0 +1,77 @@
+/*Login and Registration INDEX.html CSS style page*/
+
+#registration{
+	display: inline-block;	
+	vertical-align: right;
+	margin: 5px 20px;
+	padding: 5px 15px;
+	border: 1px solid black;
+}
+	#registration form{
+		display: block;
+		width: 260px;
+		margin: 2px 0px;	
+	}
+		#registration form label{
+			display: block;
+			margin: 4px 0px;	
+		}
+		#registration form label input{
+			margin: 0px 5px;
+			width:150px;
+			float: right;	
+		}
+		#registration form label select{
+			margin: 0px 5px;
+			width:150px;
+			float: right;	
+		}
+		#birthdate{
+			margin:0px;
+		}
+	#reg_submit{
+		display: block;
+		margin: 10px 12px;
+		float: right;
+	}
+
+#login{
+	display: inline-block;
+	margin: 5px 20px;
+	vertical-align: top;
+	border: 1px solid black;
+	padding: 5px 15px;
+}
+	#login form{
+		display: block;
+		width: 260px;
+		margin: 2px 0px;	
+	}
+		#login form label{
+				display: block;
+				margin: 4px 0px;	
+			}
+			#login form label input{
+				margin: 0px 5px;
+				width:170px;
+				float: right;	
+			}
+	#login_submit{
+		display: block;
+		margin: 10px 12px;
+		float: right;
+	}
+#belowInfo{
+	width:255px;
+	padding: 12px 0px;
+	margin: 40px 0px 20px;
+	border-top: 2px dashed black;
+	border-bottom: 2px dashed black;
+}
+
+
+.validation_message{
+		display: block;
+		width:220px;
+		color:red;
+	}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Login and Registration</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{%static 'logins/css/style_registration_index.css'%}">
+</head>
+<body>
+	<div id="registration">
+		<h2>Registration</h2>
+		<form action="{% url 'logins:register' %}" method="post">
+			{% csrf_token %}
+			<label>Title:
+				<select name="title" value="{{request.session.title}}">
+					<option name="blank"></option>
+					<option name="Mr">Mr</option>
+					<option name="Mrs">Mrs</option>
+					<option name="Miss">Miss</option>
+				</select>
+			</label>
+			<label>First Name:<input name="f_name" type="text" value="{{request.session.fname}}"></label>
+			<label>Last Name:<input name="l_name" type="text" value="{{request.session.lname}}"></label>
+			<div id="maidenDiv">
+				<label>Maiden Name:<input name="m_name" type="text" value="{{request.session.mname}}" placeholder="(Optional)"></label>
+			</div>
+			<label>Birthdate:<input id="birthdate" name="birthdate" type="date" value="{{request.session.birthday}}"></label>
+			<label for="reg_email">Email: <input name="reg_email" type="email" value="{{request.session.valEmail}}"></label>
+			<label>Password: <input name="reg_pw" type="password"></label>
+			<label>Confirm PW:<input name="conf_reg_pw" type="password"></label>
+			<input id="reg_submit" type="submit" value="Register">
+		</form>
+			<h4 class= "validation_message">{{request.session.validate}}</h4>
+	</div>
+	
+
+		<p id="belowInfo" >Registered Names and Emails Below:</p>
+
+	{% for user in users%}
+
+		<p>{{user.firstName}}  -  {{user.email}}</p>
+		<a href="{% url 'logins:delete' id=user.id %}">Delete</a>
+		<p>******</p>
+
+	{% endfor %}
+
+</body>
+</html>
